@@ -21,7 +21,7 @@ var sourceDirectory = path.join(rootDirectory, './src');
 var sourceFiles = [
 
   // Make sure module files are handled first
-  path.join(sourceDirectory, '/**/*.module.js'),
+  path.join(sourceDirectory, '/**/module.js'),
 
   // Then add all JavaScript files
   path.join(sourceDirectory, '/**/*.js')
@@ -36,10 +36,10 @@ var lintFiles = [
 gulp.task('build', function() {
   gulp.src(sourceFiles)
     .pipe(plumber())
-    .pipe(concat('az.leaflet.js'))
+    .pipe(concat('azavea-ng-leaflet.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(uglify())
-    .pipe(rename('az.leaflet.min.js'))
+    .pipe(rename('azavea-ng-leaflet.min.js'))
     .pipe(gulp.dest('./dist'));
 });
 

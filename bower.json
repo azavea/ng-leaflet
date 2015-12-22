@@ -1,9 +1,9 @@
 {
-  "name": "azleaflet",
+  "name": "azavea-ng-leaflet",
   "version": "0.1.0",
   "authors": [
     {
-      "name": "CloudNiner",
+      "name": "Andrew Fink",
       "email": "afink@azavea.com"
     }
   ],

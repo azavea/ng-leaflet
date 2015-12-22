@@ -26,7 +26,7 @@ module.exports = function(config) {
     files: [
       'bower/angular/angular.js',
       'bower/angular-mocks/angular-mocks.js',
-      'dist/az.leaflet.min.js',
+      'dist/azavea-ng-leaflet.min.js',
       'test/unit/**/*.js'
     ],
 

@@ -1,8 +1,8 @@
 {
-  "name": "az.leaflet",
+  "name": "azavea-ng-leaflet",
   "version": "0.1.0",
   "author": {
-    "name": "CloudNiner",
+    "name": "Andrew Fink",
     "email": "afink@azavea.com"
   },
   "dependencies": {},

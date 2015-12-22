@@ -1,2 +1,3 @@
-# az.leaflet
+# azavea-ng-leaflet
 
+A lightweight, flexible leaflet directive
