@@ -5,7 +5,19 @@
     "name": "Andrew Fink",
     "email": "afink@azavea.com"
   },
-  "dependencies": {},
+  "homepage": "https://github.com/azavea/ng-leaflet",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azavea/ng-leaflet"
+  },
+  "keywords": [
+    "angularjs",
+    "leaflet"
+  ],
+  "dependencies": {
+    "angular": "1.x",
+    "leaflet": "0.7.x"
+  },
   "devDependencies": {
     "chai": "^1.9.1",
     "chai-jquery": "^1.2.3",
