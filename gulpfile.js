@@ -7,6 +7,7 @@ var path = require('path');
 var plumber = require('gulp-plumber');
 var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
+var ngAnnotate = require('gulp-ng-annotate');
 
 /**
  * File patterns
@@ -36,6 +37,7 @@ var lintFiles = [
 gulp.task('build', function() {
   gulp.src(sourceFiles)
     .pipe(plumber())
+    .pipe(ngAnnotate())
     .pipe(concat('azavea-ng-leaflet.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(uglify())
