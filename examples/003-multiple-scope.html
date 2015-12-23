@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="demoapp">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../bower/angular/angular.min.js"></script>
+    <script src="../bower/leaflet/dist/leaflet.js"></script>
+    <script src="../dist/azavea-ng-leaflet.js"></script>
+    <link rel="stylesheet" href="../bower/leaflet/dist/leaflet.css" />
+    <script>
+        var app = angular.module('demoapp', ['az.leaflet']);
+        app.directive('appBaselayers', ['AZLeafletComponentFactory', function (AZLeafletComponentFactory) {
+            return AZLeafletComponentFactory({
+                onMapReady: function (map) {
+                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                }
+            });
+        }]);
+        app.controller('IndegoStationsController', ['$http', function ($http) {
+            var ctl = this;
+            var map = null;
+
+            initialize();
+
+            function initialize() {
+                ctl.setMap = setMap;
+                ctl.displayStations = displayStations;
+            }
+
+            function setMap(newMap) {
+                map = newMap;
+            }
+
+            function displayStations() {
+                $http.get('http://data.phl.opendata.arcgis.com/datasets/474e6d9781a44135afa805fa985bc4ef_0.geojson')
+                .then(function (geojson) {
+                    L.geoJson(geojson, {
+                        style: function (feature) {
+                            return {
+                                color: "#ff7800",
+                                weight: 5,
+                                opacity: 1
+                            };
+                        },
+                        onEachFeature: function (feature) {
+                            ctl.selectedStation = feature;
+                        }
+                    }).addTo(map);
+                });
+            }
+        }]);
+        app.directive('indegoStations', ['AZLeafletComponentFactory', function (AZLeafletComponentFactory) {
+            var module = {
+                scope: {
+                    selectedStation: '='
+                },
+                controller: 'IndegoStationsController',
+                controllerAs: 'isc',
+                require: ['^azLeaflet'],
+                link: function (scope, element, attrs, controllers) {
+                    var leafletController = controllers[0];
+                    var isc = scope.isc;
+                    leafletController.getMap().then(function (map) {
+                        isc.setMap(map);
+                        isc.displayStations();
+                    });
+                }
+            };
+            return module;
+        }]);
+        app.controller('AppController', [ '$scope', function($scope) {
+            $scope.selectedStation = {};
+        }]);
+    </script>
+  </head>
+
+  <body ng-controller="AppController">
+    <az-leaflet width="100%" height="480px">
+        <app-baselayers></app-baselayers>
+        <indego-stations selected-station="selectedStation"></app-overlay>
+    </az-leaflet>
+    <div ng-if="selectedStation.properties">
+        <h1>Selected Station</h1>
+        <ul>
+            <li ng-repeat="(key, value) in selectedStation.properties">
+                {{ key }}: {{ value }}
+            </li>
+        </ul>
+    </div>
+  </body>
+</html>
