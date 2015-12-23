@@ -33,8 +33,7 @@
             }
 
             function displayStations() {
-                $http.get('http://data.phl.opendata.arcgis.com/datasets/474e6d9781a44135afa805fa985bc4ef_0.geojson')
-                .then(function (geojson) {
+                $http.get('https://api.phila.gov/bike-share-stations/v1').then(function (geojson) {
                     L.geoJson(geojson, {
                         style: function (feature) {
                             return {
