@@ -10,7 +10,6 @@
             replace: true,
             template: '<div class="azavea-ng-leaflet-map"><div ng-transclude></div></div>',
             controller: 'AZLeafletController',
-            controllerAs: 'leaflet',
             bindToController: true,
             link: link
         };
