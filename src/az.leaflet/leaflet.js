@@ -12,6 +12,7 @@
             replace: true,
             template: '<div class="azavea-ng-leaflet-map"><div ng-transclude></div></div>',
             controller: 'AZLeafletController',
+            controllerAs: 'l',
             bindToController: true,
             link: link
         };
@@ -33,9 +34,6 @@
 
             controller.setMap(map);
             AZLeafletData.setMap(map, attrs.id);
-
-            // TODO: Delete map on scope.$destroy
-            // TODO: Add event to trigger a map.invalidateSize()
 
             scope.$on('$destroy', onScopeDestroy);
             scope.$on('az.leaflet.invalidatesize', onInvalidateSize);
