@@ -59,6 +59,7 @@
     "angular": false,
     "L": false,
     "$": false,
+    "jasmine": false,
     "inject": false,
     "expect": false
   }
