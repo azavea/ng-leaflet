@@ -146,7 +146,8 @@
 
         var module = {
             getMap: getMap,
-            setMap: setMap
+            setMap: setMap,
+            deleteMap: deleteMap
         };
         return module;
 
@@ -235,6 +236,12 @@
             var defer = getDefer(maps, scopeId);
             return defer.promise;
         }
+
+        function deleteMap(scopeId) {
+            var id = obtainEffectiveMapId(maps, scopeId);
+            $log.info(maps, id);
+            delete maps[id];
+        }
     }
 
     angular.module('az.leaflet')
@@ -292,11 +299,13 @@
     'use strict';
 
     /*@ngInject*/
-    azLeaflet.$inject = ["$log", "AZLeafletDefaults", "AZLeafletData"];
-    function azLeaflet($log, AZLeafletDefaults, AZLeafletData) {
+    azLeaflet.$inject = ["$log", "$timeout", "AZLeafletDefaults", "AZLeafletData"];
+    function azLeaflet($log, $timeout, AZLeafletDefaults, AZLeafletData) {
         var module = {
             restrict: 'E',
-            scope: false,
+            scope: {
+                options: '@'
+            },
             transclude: true,
             replace: true,
             template: '<div class="azavea-ng-leaflet-map"><div ng-transclude></div></div>',
@@ -316,13 +325,29 @@
             }
 
             var defaults = AZLeafletDefaults.get();
-            var map = new L.map(element[0], defaults);
+            scope.options = scope.options || {};
+            var opts = angular.extend({}, defaults, scope.options);
+            var map = new L.map(element[0], opts);
 
             controller.setMap(map);
             AZLeafletData.setMap(map, attrs.id);
 
             // TODO: Delete map on scope.$destroy
             // TODO: Add event to trigger a map.invalidateSize()
+
+            scope.$on('$destroy', onScopeDestroy);
+            scope.$on('az.leaflet.invalidatesize', onInvalidateSize);
+
+            function onInvalidateSize() {
+                $timeout(function () {
+                    map.invalidateSize();
+                });
+            }
+
+            function onScopeDestroy() {
+                map.remove();
+                AZLeafletData.deleteMap(attrs.id);
+            }
         }
     }
 

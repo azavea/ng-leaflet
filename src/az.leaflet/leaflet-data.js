@@ -10,7 +10,8 @@
 
         var module = {
             getMap: getMap,
-            setMap: setMap
+            setMap: setMap,
+            deleteMap: deleteMap
         };
         return module;
 
@@ -98,6 +99,12 @@
         function getMap(scopeId) {
             var defer = getDefer(maps, scopeId);
             return defer.promise;
+        }
+
+        function deleteMap(scopeId) {
+            var id = obtainEffectiveMapId(maps, scopeId);
+            $log.info(maps, id);
+            delete maps[id];
         }
     }
 

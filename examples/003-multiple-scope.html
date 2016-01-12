@@ -85,10 +85,6 @@
                 }
             };
 
-            $scope.$watch('leaflet.center', function (newValue) {
-                console.log(newValue);
-            });
-
             $scope.$watch('station.selected', function (newValue) {
                 if (newValue && newValue.geometry) {
                     $scope.leaflet.center = {
