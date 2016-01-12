@@ -53,10 +53,13 @@
 
   "browser": true,
   "node": true,
+  "mocha": true,
 
   "globals": {
     "angular": false,
     "L": false,
-    "$": false
+    "$": false,
+    "inject": false,
+    "expect": false
   }
 }
