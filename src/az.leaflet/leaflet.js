@@ -28,8 +28,8 @@
             }
 
             var defaults = AZLeafletDefaults.get();
-            scope.options = scope.options || {};
-            var opts = angular.extend({}, defaults, scope.options);
+            var options = angular.fromJson(attrs.options) || {};
+            var opts = angular.extend({}, defaults, options);
             var map = new L.map(element[0], opts);
 
             controller.setMap(map);
