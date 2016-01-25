@@ -18,6 +18,8 @@ var rootDirectory = path.resolve('./');
 
 // Source directory for build process
 var sourceDirectory = path.join(rootDirectory, './src');
+// Test directory for test files
+var testDirectory = path.join(rootDirectory, './test');
 
 var sourceFiles = [
 
@@ -25,14 +27,24 @@ var sourceFiles = [
   path.join(sourceDirectory, '/**/module.js'),
 
   // Then add all JavaScript files
-  path.join(sourceDirectory, '/**/*.js')
+  path.join(sourceDirectory, '/**/*.js'),
+
 ];
+
+var testFiles = [
+  // All unit test files
+  path.join(testDirectory, '/unit/**/*.spec.js'),
+
+  path.join(testDirectory, '/e2e/**/*.spec.js')
+];
+
+var allFiles = sourceFiles + testFiles;
 
 var lintFiles = [
   'gulpfile.js',
   // Karma configuration
-  'karma-*.conf.js'
-].concat(sourceFiles);
+  'karma.conf.js'
+].concat(allFiles);
 
 gulp.task('build', function() {
   gulp.src(sourceFiles)
@@ -49,7 +61,7 @@ gulp.task('build', function() {
  * Process
  */
 gulp.task('process-all', function (done) {
-  runSequence('jshint', 'test-src', 'build', done);
+  runSequence('jshint', 'test', 'build', done);
 });
 
 /**
@@ -58,7 +70,7 @@ gulp.task('process-all', function (done) {
 gulp.task('watch', function () {
 
   // Watch JavaScript files
-  gulp.watch(sourceFiles, ['process-all']);
+  gulp.watch(allFiles, ['process-all']);
 });
 
 /**
@@ -75,29 +87,9 @@ gulp.task('jshint', function () {
 /**
  * Run test once and exit
  */
-gulp.task('test-src', function (done) {
+gulp.task('test', function (done) {
   karma.start({
-    configFile: __dirname + '/karma-src.conf.js',
-    singleRun: true
-  }, done);
-});
-
-/**
- * Run test once and exit
- */
-gulp.task('test-dist-concatenated', function (done) {
-  karma.start({
-    configFile: __dirname + '/karma-dist-concatenated.conf.js',
-    singleRun: true
-  }, done);
-});
-
-/**
- * Run test once and exit
- */
-gulp.task('test-dist-minified', function (done) {
-  karma.start({
-    configFile: __dirname + '/karma-dist-minified.conf.js',
+    configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done);
 });

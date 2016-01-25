@@ -13,6 +13,7 @@
 
             ctl.getMap = getMap;
             ctl.setMap = setMap;
+            ctl.invalidateMapSize = invalidateMapSize;
         }
 
         /**
@@ -31,8 +32,15 @@
 
             // This helps in some situations where the map isn't initially rendered correctly due
             // to the container size being changed.
+            invalidateMapSize();
+        }
+
+        function invalidateMapSize() {
+            if (!_map) {
+                return;
+            }
             $timeout(function() {
-                map.invalidateSize();
+                _map.invalidateSize();
             }, 0);
         }
     }

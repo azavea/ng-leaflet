@@ -106,6 +106,7 @@
 
             ctl.getMap = getMap;
             ctl.setMap = setMap;
+            ctl.invalidateMapSize = invalidateMapSize;
         }
 
         /**
@@ -124,8 +125,15 @@
 
             // This helps in some situations where the map isn't initially rendered correctly due
             // to the container size being changed.
+            invalidateMapSize();
+        }
+
+        function invalidateMapSize() {
+            if (!_map) {
+                return;
+            }
             $timeout(function() {
-                map.invalidateSize();
+                _map.invalidateSize();
             }, 0);
         }
     }
@@ -334,13 +342,7 @@
             AZLeafletData.setMap(map, attrs.id);
 
             scope.$on('$destroy', onScopeDestroy);
-            scope.$on('az.leaflet.invalidatesize', onInvalidateSize);
-
-            function onInvalidateSize() {
-                $timeout(function () {
-                    map.invalidateSize();
-                });
-            }
+            scope.$on('az.leaflet.invalidatesize', controller.invalidateMapSize);
 
             function onScopeDestroy() {
                 map.remove();

@@ -36,13 +36,7 @@
             AZLeafletData.setMap(map, attrs.id);
 
             scope.$on('$destroy', onScopeDestroy);
-            scope.$on('az.leaflet.invalidatesize', onInvalidateSize);
-
-            function onInvalidateSize() {
-                $timeout(function () {
-                    map.invalidateSize();
-                });
-            }
+            scope.$on('az.leaflet.invalidatesize', controller.invalidateMapSize);
 
             function onScopeDestroy() {
                 map.remove();
