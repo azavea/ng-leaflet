@@ -1,3 +1,22 @@
+/**
+ * @ngdoc directive
+ * @name az.leaflet.directive:azLeaflet
+ * @restrict 'E'
+ * @scope
+ *
+ * @description
+ * Instantiate a new leaflet map on the element, with options, which are not watched for changes
+ *
+ * A class azavea-ng-leaflet-map is added to the root Leaflet map element
+ *
+ * This directive does not handle addition of any basemaps, etc. This must all be done in
+ * child directives. See `./examples` directory of the source for a detailed example.
+ *
+ * @param {String=} width - Width of map in px or percentage
+ * @param {String=} height - Height of map in px or percentage
+ * @param {Object=} options - Default map options to instantiate map with.
+ *                            If not provided, {@link az.leaflet.service:AZLeafletDefaults} is used.
+ */
 (function (angular) {
     'use strict';
 
@@ -36,6 +55,17 @@
             AZLeafletData.setMap(map, attrs.id);
 
             scope.$on('$destroy', onScopeDestroy);
+
+            /**
+             * @ngdoc event
+             * @name az.leaflet.directive:azLeaflet#az.leaflet.invalidatesize
+             * @eventOf az.leaflet.directive:azLeaflet
+             *
+             * @description
+             *
+             * Trigger `'az.leaflet.invalidatesize'` in your application code to trigger a L.map.invalidateSize()
+             * call on the next $digest cycle
+             */
             scope.$on('az.leaflet.invalidatesize', controller.invalidateMapSize);
 
             function onScopeDestroy() {

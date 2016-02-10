@@ -1,3 +1,12 @@
+/**
+ * @ngdoc controller
+ * @name az.leaflet.controller:AZLeafletController
+ *
+ * @description
+ * The controller for the AZLeaflet directive, which provides direct access to the
+ * L.map object instantiated for that map. Should only be accessed in child directives
+ * via the link function's `controller` argument.
+ */
 (function () {
     'use strict';
 
@@ -17,7 +26,13 @@
         }
 
         /**
+         * @ngdoc function
+         * @name az.leaflet.controller:AZLeafletController#getMap
+         * @methodOf az.leaflet.controller:AZLeafletController
+         *
+         * @description
          * Get a promise reference to the map object created by the directive
+         *
          * @return {Promise} Resolves with an L.map object
          */
         function getMap() {

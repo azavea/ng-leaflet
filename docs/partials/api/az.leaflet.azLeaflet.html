@@ -1,0 +1,35 @@
+<h1><code ng:non-bindable="">azLeaflet</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">az</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="az-leaflet-page az-leaflet-azleaflet-page"><p>Instantiate a new leaflet map on the element, with options, which are not watched for changes</p>
+<p>A class azavea-ng-leaflet-map is added to the root Leaflet map element</p>
+<p>This directive does not handle addition of any basemaps, etc. This must all be done in
+child directives</p>
+<h5 id="events" id="description_events">Events</h5>
+<p><code>az.leaflet.invalidateSize</code>: Triggers a L.map.invalidateSize() call on next digest cycle</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;az-leaflet
+       width="{String}"
+       height="{String}"
+       options="{Object}"&gt;
+&lt;/az-leaflet&gt;</pre>
+<h3 id="usage_directive-info">Directive info</h3>
+<div class="directive-info"><ul><li>This directive creates new scope.</li>
+</ul>
+</div>
+<h4 id="usage_directive-info_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>width</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="az-leaflet-page az-leaflet-azleaflet-page"><ul>
+<li>(Optional) Width of map in px or percentage</li>
+</ul>
+</div></td></tr><tr><td>height</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="az-leaflet-page az-leaflet-azleaflet-page"><ul>
+<li>(Optional) Height of map in px or percentage</li>
+</ul>
+</div></td></tr><tr><td>options</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="az-leaflet-page az-leaflet-azleaflet-page"><ul>
+<li>(Optional) Default map options to instantiate map with.
+If not provided, <a href="#/api/az.leaflet:AZLeafletDefaults">az.leaflet:AZLeafletDefaults</a> is used.</li>
+</ul>
+</div></td></tr></tbody></table></div>
+</div>

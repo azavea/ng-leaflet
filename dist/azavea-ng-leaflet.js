@@ -8,6 +8,21 @@
 
 })(angular);
 
+/**
+ * @ngdoc directive
+ * @name az.leaflet.directive:azLeafletCenter
+ * @restrict 'E'
+ * @requires az.leaflet.directive:azLeaflet
+ * @scope
+ *
+ * @description
+ * Helper directive to two-way bind the leaflet map center/zoom, must be nested within an
+ * {@link az.leaflet.directive:azLeaflet azLeaflet} directive
+ *
+ * @param {L.LatLng} center - Center of map, watched for changes
+ * @param {Integer} zoom - Zoom level of map, watched for changes
+ * @param {L.ZoomPanOptions=} options - Zoom/Pan options object to use to control the zoom/pan
+ */
 (function () {
     'use strict';
 
@@ -55,6 +70,19 @@
 
 })();
 
+/**
+ * @ngdoc service
+ * @name az.leaflet.factory:AZLeafletComponentFactory
+ *
+ * @description
+ * This is purely a helper method to generate new Angular Directive Definition Objects for
+ * new azLeaflet directives that the user may want to create.
+ *
+ * TODO: Document the onMapReady property of the DDO
+ *
+ * @param {Object} directive - Directive Definition Object that extends the
+ *                             AZLeafletComponentFactory defaults
+ */
 (function () {
     'use strict';
 
@@ -90,6 +118,15 @@
         .factory('AZLeafletComponentFactory', LeafletComponent);
 })();
 
+/**
+ * @ngdoc controller
+ * @name az.leaflet.controller:AZLeafletController
+ *
+ * @description
+ * The controller for the AZLeaflet directive, which provides direct access to the
+ * L.map object instantiated for that map. Should only be accessed in child directives
+ * via the link function's `controller` argument.
+ */
 (function () {
     'use strict';
 
@@ -110,7 +147,13 @@
         }
 
         /**
+         * @ngdoc function
+         * @name az.leaflet.controller:AZLeafletController#getMap
+         * @methodOf az.leaflet.controller:AZLeafletController
+         *
+         * @description
          * Get a promise reference to the map object created by the directive
+         *
          * @return {Promise} Resolves with an L.map object
          */
         function getMap() {
@@ -141,18 +184,24 @@
     angular.module('az.leaflet')
         .controller('AZLeafletController', LeafletController);
 })();
+/**
+ * @ngdoc service
+ * @name  az.leaflet.service:AZLeafletData
+ *
+ * @description
+ * Handles storage and retrieval of {@link http://leafletjs.com/reference.html#map-class L.map}
+ * objects instantiated via {@link az.leaflet.directive:azLeaflet azLeaflet} directive
+ */
 (function () {
     'use strict';
 
-    /**
-     * LeafletData stores references to L.map objects instantiated by the az-leaflet directive.
-     */
     /*@ngInject*/
     LeafletData.$inject = ["$log", "$q"];
     function LeafletData($log, $q) {
         var maps = {};
 
         var module = {
+
             getMap: getMap,
             setMap: setMap,
             deleteMap: deleteMap
@@ -223,9 +272,16 @@
         }
 
         /**
-         * Save map to LeafletData with the given id
-         * @param {L.map} map   Map object to save
-         * @param {string} scopeId Unique string key to save the map with
+         * @ngdoc function
+         * @name  az.leaflet.service:AZLeafletData#setMap
+         * @methodOf  az.leaflet.service:AZLeafletData
+         *
+         * @description
+         * Save map to AZLeafletData with the given id
+         *
+         * @param {L.map} map - Map object to save
+         * @param {String} scopeId - Unique string key to save the map with, use this id to retrieve
+         *                           later with getMap()
          */
         function setMap(map, scopeId) {
             var defer = getUnresolvedDefer(maps, scopeId);
@@ -234,17 +290,36 @@
         }
 
         /**
-         * Get map with the given id. If only one map is saved to LeafletData, the id can be omitted
-         * and getMap will return the only map object it is caching.
+         * @ngdoc function
+         * @name  az.leaflet.service:AZLeafletData#getMap
+         * @methodOf  az.leaflet.service:AZLeafletData
          *
-         * @param  {string} scopeId Optional. Id of map to retrieve from LeafletData
-         * @return {promise}        resolved with the ol.Map object
+         * @description
+         * Get map with the given id. If only one map is saved to AZLeafletData, the id can be
+         * omitted and getMap will return the only map object it is caching.
+         *
+         * @param  {String=} scopeId - Id of map to retrieve from AZLeafletData. Optional if
+         *                             there is only one initialized map.
+         * @return {Promise} Resolves with the requested L.map object
          */
         function getMap(scopeId) {
             var defer = getDefer(maps, scopeId);
             return defer.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name  az.leaflet.service:AZLeafletData#deleteMap
+         * @methodOf  az.leaflet.service:AZLeafletData
+         *
+         * @description
+         * Remove the map with id from the AZLeafletData cache.
+         *
+         * DOES NOT remove the map from the DOM or do any other associated cleanup tasks
+         *
+         * @param  {String=} scopeId - Id of map to delete from AZLeafletData. Optional if
+         *                             there is only one initialized map.
+         */
         function deleteMap(scopeId) {
             var id = obtainEffectiveMapId(maps, scopeId);
             $log.info(maps, id);
@@ -255,14 +330,19 @@
     angular.module('az.leaflet')
     .service('AZLeafletData', LeafletData);
 })();
+/**
+ * @ngdoc object
+ * @name az.leaflet.provider:AZLeafletDefaultsProvider
+ *
+ * @description
+ *
+ * AZLeafletDefaults provides the default
+ * {@link http://leafletjs.com/reference.html#map-options L.MapOptions} object for each new map
+ * that is instantiated via the directive
+ */
 (function() {
     'use strict';
 
-    /**
-     * Provides defaults for new maps created using the azLeaflet directive.
-     *
-     * Defaults can be changed at config time via LeafletDefaults.setDefaults()
-     */
     /*@ngInject*/
     function LeafletDefaultsProvider() {
         var svc = this;
@@ -273,8 +353,24 @@
         };
 
         /**
-         * Update defaults by merging user-set defaults into defaults object
-         * @param {LeafletDefaults} newDefaults
+         * @ngdoc function
+         * @name  az.leaflet.provider:AZLeafletDefaultsProvider#setDefaults
+         * @methodOf az.leaflet.provider:AZLeafletDefaultsProvider
+         *
+         * @description
+         * Extend the default AZLeafletDefaults object
+         *
+         * Default object is:
+         * ```
+         * var defaults = {
+         *     center: [0,0],
+         *     zoom: 1,
+         *     crs: L.CRS.EPSG3857
+         * };
+         * ```
+         *
+         * @param {L.MapOptions} newDefaults - L.MapOptions object to extend the built-in
+         *                                     defaults with
          */
         svc.setDefaults = function (newDefaults) {
             angular.merge(defaults, newDefaults);
@@ -282,7 +378,10 @@
 
         svc.$get = LeafletDefaults;
 
-        /** Read-only wrapper around defaults */
+        /**
+         * @ngdoc service
+         * @name az.leaflet.service:AZLeafletDefaults
+         */
         /*@ngInject*/
         function LeafletDefaults() {
             var module = {
@@ -291,8 +390,11 @@
             return module;
 
             /**
-             * Return a copy of the current set of defaults
-             * @return {LeafletDefaults}
+             * @ngdoc function
+             * @name az.leaflet.service:AZLeafletDefaults#get
+             * @methodOf az.leaflet.service:AZLeafletDefaults
+             *
+             * @return {L.MapOptions} Shallow copy of the current AZLeafletDefaults
              */
             function get() {
                 return angular.extend({}, defaults);
@@ -303,6 +405,25 @@
     angular.module('az.leaflet')
         .provider('AZLeafletDefaults', LeafletDefaultsProvider);
 })();
+/**
+ * @ngdoc directive
+ * @name az.leaflet.directive:azLeaflet
+ * @restrict 'E'
+ * @scope
+ *
+ * @description
+ * Instantiate a new leaflet map on the element, with options, which are not watched for changes
+ *
+ * A class azavea-ng-leaflet-map is added to the root Leaflet map element
+ *
+ * This directive does not handle addition of any basemaps, etc. This must all be done in
+ * child directives. See `./examples` directory of the source for a detailed example.
+ *
+ * @param {String=} width - Width of map in px or percentage
+ * @param {String=} height - Height of map in px or percentage
+ * @param {Object=} options - Default map options to instantiate map with.
+ *                            If not provided, {@link az.leaflet.service:AZLeafletDefaults} is used.
+ */
 (function (angular) {
     'use strict';
 
@@ -342,6 +463,17 @@
             AZLeafletData.setMap(map, attrs.id);
 
             scope.$on('$destroy', onScopeDestroy);
+
+            /**
+             * @ngdoc event
+             * @name az.leaflet.directive:azLeaflet#az.leaflet.invalidatesize
+             * @eventOf az.leaflet.directive:azLeaflet
+             *
+             * @description
+             *
+             * Trigger `'az.leaflet.invalidatesize'` in your application code to trigger a L.map.invalidateSize()
+             * call on the next $digest cycle
+             */
             scope.$on('az.leaflet.invalidatesize', controller.invalidateMapSize);
 
             function onScopeDestroy() {

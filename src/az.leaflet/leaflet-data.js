@@ -1,14 +1,20 @@
+/**
+ * @ngdoc service
+ * @name  az.leaflet.service:AZLeafletData
+ *
+ * @description
+ * Handles storage and retrieval of {@link http://leafletjs.com/reference.html#map-class L.map}
+ * objects instantiated via {@link az.leaflet.directive:azLeaflet azLeaflet} directive
+ */
 (function () {
     'use strict';
 
-    /**
-     * LeafletData stores references to L.map objects instantiated by the az-leaflet directive.
-     */
     /*@ngInject*/
     function LeafletData($log, $q) {
         var maps = {};
 
         var module = {
+
             getMap: getMap,
             setMap: setMap,
             deleteMap: deleteMap
@@ -79,9 +85,16 @@
         }
 
         /**
-         * Save map to LeafletData with the given id
-         * @param {L.map} map   Map object to save
-         * @param {string} scopeId Unique string key to save the map with
+         * @ngdoc function
+         * @name  az.leaflet.service:AZLeafletData#setMap
+         * @methodOf  az.leaflet.service:AZLeafletData
+         *
+         * @description
+         * Save map to AZLeafletData with the given id
+         *
+         * @param {L.map} map - Map object to save
+         * @param {String} scopeId - Unique string key to save the map with, use this id to retrieve
+         *                           later with getMap()
          */
         function setMap(map, scopeId) {
             var defer = getUnresolvedDefer(maps, scopeId);
@@ -90,17 +103,36 @@
         }
 
         /**
-         * Get map with the given id. If only one map is saved to LeafletData, the id can be omitted
-         * and getMap will return the only map object it is caching.
+         * @ngdoc function
+         * @name  az.leaflet.service:AZLeafletData#getMap
+         * @methodOf  az.leaflet.service:AZLeafletData
          *
-         * @param  {string} scopeId Optional. Id of map to retrieve from LeafletData
-         * @return {promise}        resolved with the ol.Map object
+         * @description
+         * Get map with the given id. If only one map is saved to AZLeafletData, the id can be
+         * omitted and getMap will return the only map object it is caching.
+         *
+         * @param  {String=} scopeId - Id of map to retrieve from AZLeafletData. Optional if
+         *                             there is only one initialized map.
+         * @return {Promise} Resolves with the requested L.map object
          */
         function getMap(scopeId) {
             var defer = getDefer(maps, scopeId);
             return defer.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name  az.leaflet.service:AZLeafletData#deleteMap
+         * @methodOf  az.leaflet.service:AZLeafletData
+         *
+         * @description
+         * Remove the map with id from the AZLeafletData cache.
+         *
+         * DOES NOT remove the map from the DOM or do any other associated cleanup tasks
+         *
+         * @param  {String=} scopeId - Id of map to delete from AZLeafletData. Optional if
+         *                             there is only one initialized map.
+         */
         function deleteMap(scopeId) {
             var id = obtainEffectiveMapId(maps, scopeId);
             $log.info(maps, id);

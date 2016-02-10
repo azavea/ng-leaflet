@@ -1,3 +1,16 @@
+/**
+ * @ngdoc service
+ * @name az.leaflet.factory:AZLeafletComponentFactory
+ *
+ * @description
+ * This is purely a helper method to generate new Angular Directive Definition Objects for
+ * new azLeaflet directives that the user may want to create.
+ *
+ * TODO: Document the onMapReady property of the DDO
+ *
+ * @param {Object} directive - Directive Definition Object that extends the
+ *                             AZLeafletComponentFactory defaults
+ */
 (function () {
     'use strict';
 
