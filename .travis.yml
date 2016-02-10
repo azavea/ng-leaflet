@@ -12,6 +12,7 @@ addons:
   apt:
     packages:
       - libicu-dev
+      - libicu52
 
 before_script:
   - npm install -g bower gulp
