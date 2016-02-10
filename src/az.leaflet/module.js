@@ -4,6 +4,6 @@
   // and are loaded in the correct order to satisfy dependency injection
   // before all nested files are concatenated by Gulp
 
-  angular.module('az.leaflet', []);
+  angular.module('az.leaflet', ['ng']);
 
 })(angular);

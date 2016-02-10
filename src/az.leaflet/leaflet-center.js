@@ -1,3 +1,18 @@
+/**
+ * @ngdoc directive
+ * @name az.leaflet.directive:azLeafletCenter
+ * @restrict 'E'
+ * @requires az.leaflet.directive:azLeaflet
+ * @scope
+ *
+ * @description
+ * Helper directive to two-way bind the leaflet map center/zoom, must be nested within an
+ * {@link az.leaflet.directive:azLeaflet azLeaflet} directive
+ *
+ * @param {L.LatLng} center - Center of map, watched for changes
+ * @param {Integer} zoom - Zoom level of map, watched for changes
+ * @param {L.ZoomPanOptions=} options - Zoom/Pan options object to use to control the zoom/pan
+ */
 (function () {
     'use strict';
 

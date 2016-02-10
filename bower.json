@@ -22,6 +22,7 @@
     "leaflet": ">=0.7.7"
   },
   "devDependencies": {
+    "angular-animate": ">=1.2.0",
     "angular-mocks": ">=1.2.0",
     "angular-scenario": ">=1.2.0"
   }

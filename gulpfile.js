@@ -8,6 +8,7 @@ var plumber = require('gulp-plumber');
 var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
 var ngAnnotate = require('gulp-ng-annotate');
+var ngdocs = require('gulp-ngdocs');
 
 /**
  * File patterns
@@ -82,6 +83,24 @@ gulp.task('jshint', function () {
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
+});
+
+/**
+ * Generate docs
+ */
+gulp.task('docs', function () {
+  var options = {
+    scripts: [
+      'bower/angular/angular.min.js',
+      'bower/angular-animate/angular-animate.min.js'
+    ],
+    title: 'ngLeaflet Documentation',
+    navTemplate: 'ngdocs-assets/navbar.html',
+    html5Mode: false
+  };
+  return gulp.src(sourceFiles)
+    .pipe(ngdocs.process(options))
+    .pipe(gulp.dest('./docs'));
 });
 
 /**

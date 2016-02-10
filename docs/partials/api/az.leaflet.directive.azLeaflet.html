@@ -1,0 +1,43 @@
+<h1><code ng:non-bindable="">azLeaflet</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">az.leaflet</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="az-leaflet-directive-page az-leaflet-directive-azleaflet-page"><p>Instantiate a new leaflet map on the element, with options, which are not watched for changes</p>
+<p>A class azavea-ng-leaflet-map is added to the root Leaflet map element</p>
+<p>This directive does not handle addition of any basemaps, etc. This must all be done in
+child directives. See <code>./examples</code> directory of the source for a detailed example.</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;az-leaflet
+       [width="{String}"]
+       [height="{String}"]
+       [options="{Object}"]&gt;
+&lt;/az-leaflet&gt;</pre>
+<h3 id="usage_directive-info">Directive info</h3>
+<div class="directive-info"><ul><li>This directive creates new scope.</li>
+</ul>
+</div>
+<h4 id="usage_directive-info_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>width <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="az-leaflet-directive-page az-leaflet-directive-azleaflet-page"><ul>
+<li>Width of map in px or percentage</li>
+</ul>
+</div></td></tr><tr><td>height <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="az-leaflet-directive-page az-leaflet-directive-azleaflet-page"><ul>
+<li>Height of map in px or percentage</li>
+</ul>
+</div></td></tr><tr><td>options <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="az-leaflet-directive-page az-leaflet-directive-azleaflet-page"><ul>
+<li>Default map options to instantiate map with.
+If not provided, <a href="#/api/az.leaflet.service:AZLeafletDefaults">az.leaflet.service:AZLeafletDefaults</a> is used.</li>
+</ul>
+</div></td></tr></tbody></table></div>
+<div class="member event"><h2 id="events">Events</h2>
+<ul class="events"><li><h3 id="events_invalidatesize">invalidatesize</h3>
+<div class="invalidatesize"><div class="az-leaflet-directive-page az-leaflet-directive-azleaflet-az-leaflet-invalidatesize-page"><p>Trigger <code>&#39;az.leaflet.invalidatesize&#39;</code> in your application code to trigger a L.map.invalidateSize()
+call on the next $digest cycle</p>
+</div><div class="inline"></div>
+<div class="inline"></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
