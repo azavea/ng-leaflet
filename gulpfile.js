@@ -66,6 +66,13 @@ gulp.task('process-all', function (done) {
 });
 
 /**
+ * Travis CI
+ */
+gulp.task('travis', function (done) {
+  runSequence('jshint', 'test', done);
+});
+
+/**
  * Watch task
  */
 gulp.task('watch', function () {
