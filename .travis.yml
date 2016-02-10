@@ -2,6 +2,17 @@ language: node_js
 node_js:
  - "0.12"
  - "4.1"
+
+cache:
+  directories:
+    - bower/
+    - node_modules/
+
+addons:
+  apt:
+    packages:
+      - libicu-dev
+
 before_script:
   - npm install -g bower gulp
   - bower install
